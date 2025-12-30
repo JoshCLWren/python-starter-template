@@ -32,11 +32,11 @@ jobs:
 
       - name: Create test fixtures
         shell: bash
-        run: uv run python tests/create_test_comics.py
+        run: source .venv/bin/activate && python tests/create_test_comics.py
 
       - name: Run pytest
         shell: bash
-        run: xvfb-run -a uv run pytest --cov=cdisplayagain --cov-report=xml
+        run: source .venv/bin/activate && xvfb-run -a pytest --cov=cdisplayagain --cov-report=xml
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5

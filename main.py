@@ -1,12 +1,12 @@
-"""CLI entrypoint demonstrating argparse and clean architecture."""
+"""Entrypoint demonstrating argparse and clean architecture."""
 
 import argparse
 
-from src.example_module.core import ExampleData, process_data
+from example_module.core import ExampleData, process_data
 
 
 def main() -> None:
-    """Run the example CLI tool."""
+    """Run the example."""
     parser = argparse.ArgumentParser(description="Example CLI tool")
     parser.add_argument("name", help="Name to process")
     parser.add_argument("--value", type=int, default=0, help="Value to process")

@@ -11,13 +11,20 @@
 The viewer lives entirely in the repository root. `cdisplayagain.py` exposes the CLI-oriented entrypoint with a `PageSource` abstraction and rendering loop built around `Archive` subclasses for CBZ/CBR handling. Tooling metadata (`pyproject.toml`, `uv.lock`) defines the Pillow and rarfile dependencies; assets are loaded directly from archives at runtime, so there is no static `assets/` directory. Expect any future modules (tests, components, helpers) to sit beside these files unless a new package directory is created.
 
 ## Build, Test, and Development Commands
-- `uv venv`: create a uv-managed virtualenv (skip activation).
-- `uv sync`: install dependencies via uv without activating the venv.
-- `python cdisplayagain.py path/to/comic.cbz`: open a specific archive immediately (assumes venv is activated).
-- `uv run pytest`: run tests using the currently activated virtualenv.
+- `make init NAME=your-project`: initialize the template with your project name (renames module and updates config).
+- `source .venv/bin/activate`: activate the virtual environment (do this once per session).
+- `uv sync --all-extras`: install dependencies via uv.
+- `python main.py`: run the main entrypoint.
+- `pytest`: run tests.
 - `make pytest`: run the test suite.
 - `make lint`: run ruff.
-- `make smoke FILE=path/to/comic.cbz`: print the manual checklist and launch.
+
+## Getting Started
+When cloning this template for a new project:
+1. Run `make init NAME=your-project` to rename the module and update config
+2. Run `uv sync --all-extras` to install all dependencies
+3. Run `source .venv/bin/activate` to activate the virtual environment
+4. Start building your project!
 
 ## Git Worktrees (Parallel Work)
 Use git worktrees to work on multiple cards in parallel without branch conflicts:
@@ -32,7 +39,7 @@ Use git worktrees to work on multiple cards in parallel without branch conflicts
 ## Test Coverage Requirements
 - Current target: 96% coverage threshold (configured in `pyproject.toml`)
 - Coverage milestones: 68% ✅ → 74% ✅ → 80% ✅ → 85% ✅ → 90% ✅ → 95% ✅ → 96% 🎯 → 100%
-- Always run `uv run pytest --cov=cdisplayagain --cov-report=term-missing` to check missing coverage
+- Always run `pytest --cov=cdisplayagain --cov-report=term-missing` to check missing coverage
 - When touching logic or input handling, ensure tests are added to maintain coverage
 - Strategies for increasing coverage:
   - Add tests for remaining uncovered edge cases
@@ -62,7 +69,7 @@ Follow standard PEP 8 spacing (4 spaces, 100-character soft wrap) and favor des
 
 Ruff configuration (from `pyproject.toml`):
 - Line length: 100 characters
-- Python version: 3.12
+- Python version: 3.13
 - Enabled rules: E, F, I, N, UP, B, C4, D, ANN401
 - Ignored: D203, D213, E501
 - Code comments are discouraged - prefer clear code and commit messages
@@ -87,7 +94,7 @@ To test the hook manually: `make githook` or `bash scripts/lint.sh`
   - `make lint` or `bash scripts/lint.sh`
 - Use specific types instead of `Any` in type annotations (ruff ANN401 rule)
 - Run tests when you touch logic or input handling:
-  - `uv run python -m pytest`
+  - `pytest`
 - Perform manual smoke checks (CBZ + CBR) before sharing UI changes:
   - Open a sample archive, page through images, toggle fit/zoom, and confirm
     temporary directories are cleaned.

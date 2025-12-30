@@ -1,4 +1,4 @@
-.PHONY: help lint pytest sync venv run smoke clean-build build build-onedir install install-bin install-desktop mime-query redo ci-test-debian ci-test-local ci-build-image githook install-githook
+.PHONY: help init lint pytest sync venv run smoke clean-build build build-onedir install install-bin install-desktop mime-query redo ci-test-debian ci-test-local ci-build-image githook install-githook
 
 # Configuration
 PREFIX ?= /usr/local
@@ -7,6 +7,20 @@ LIBDIR ?= $(PREFIX)/lib
 
 help:  ## Show this help message
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
+
+init:  ## Initialize project with new name (Usage: make init NAME=your-project)
+	@if [ -z "$(NAME)" ]; then echo "Usage: make init NAME=your-project"; exit 1; fi
+	@echo "Initializing project as $(NAME)..."
+	@sed -i.bak "s/python-starter-template/$(NAME)/g" pyproject.toml && rm pyproject.toml.bak
+	@sed -i.bak "s/example_module/$(NAME)/g" pyproject.toml && rm pyproject.toml.bak
+	@if [ -d "example_module" ]; then \
+		echo "Renaming example_module to $(NAME)..."; \
+		mv example_module $(NAME); \
+		find . -type f -name "*.py" -exec sed -i.bak "s/from example_module/from $(NAME)/g" {} +; \
+		find . -type f -name "*.py.bak" -delete; \
+	fi
+	@echo "Project initialized as $(NAME)"
+	@echo "Run 'uv sync --all-extras' to install dependencies"
 
 lint:  ## Run code linting
 	bash scripts/lint.sh
@@ -21,7 +35,7 @@ githook: install-githook  ## Run lint checks manually (installs pre-commit hook 
 	bash scripts/lint.sh
 
 pytest:  ## Run tests
-	uv run --active pytest
+	pytest
 
 profile-cbz:  ## Profile CBZ launch performance (Usage: make profile-cbz FILE=path/to/comic.cbz)
 	@if [ -z "$(FILE)" ]; then echo "Usage: make profile-cbz FILE=path/to/comic.cbz"; exit 1; fi
@@ -34,14 +48,14 @@ profile-cbr:  ## Profile CBR launch performance (Usage: make profile-cbr FILE=pa
 	@time uv run --active python cdisplayagain.py "$(FILE)"
 
 sync:  ## Install dependencies
-	uv sync --locked
+	uv sync --all-extras
 
 venv:  ## Create virtual environment
 	uv venv
 
 run:  ## Run the app (Usage: make run FILE=path/to/comic.cbz)
 	@if [ -z "$(FILE)" ]; then echo "Usage: make run FILE=path/to/comic.cbz"; exit 1; fi
-	uv run --active python cdisplayagain.py "$(FILE)"
+	python cdisplayagain.py "$(FILE)"
 
 smoke:  ## Run manual smoke test checklist
 	@if [ -z "$(FILE)" ]; then echo "Usage: make smoke FILE=path/to/comic.cbz"; exit 1; fi
@@ -50,16 +64,16 @@ smoke:  ## Run manual smoke test checklist
 	@echo "- Page through images to confirm ordering"
 	@echo "- Toggle fit-to-screen, fit-to-width, and zoom modes"
 	@echo "- Confirm temp directories are cleaned on exit"
-	uv run --active python cdisplayagain.py "$(FILE)"
+	python cdisplayagain.py "$(FILE)"
 
 clean-build:  ## Clean build artifacts
 	rm -rf build dist *.spec __pycache__ .pytest_cache
 
 build: clean-build  ## Build single-file executable (slower startup)
-	uv run --active pyinstaller --onefile --name cdisplayagain cdisplayagain.py
+	pyinstaller --onefile --name cdisplayagain cdisplayagain.py
 
 build-onedir: clean-build  ## Build directory bundle (faster startup)
-	uv run --active pyinstaller --onedir --name cdisplayagain cdisplayagain.py
+	pyinstaller --onedir --name cdisplayagain cdisplayagain.py
 
 install: install-bin install-desktop  ## Install everything
 
@@ -111,9 +125,9 @@ ci-test-local:  ## Run CI-like tests locally (requires xvfb and libvips)
 	@echo "Running CI-like test locally..."
 	@if ! command -v xvfb-run >/dev/null 2>&1; then \
 		echo "WARNING: xvfb-run not found. Running without virtual display..."; \
-		uv run --active pytest tests/ -q --tb=short 2>&1 | tee ci-test-output.log; \
+		pytest tests/ -q --tb=short 2>&1 | tee ci-test-output.log; \
 	else \
-		xvfb-run -a uv run --active pytest tests/ -q --tb=short 2>&1 | tee ci-test-output.log; \
+		xvfb-run -a pytest tests/ -q --tb=short 2>&1 | tee ci-test-output.log; \
 	fi
 	@if [ -f ci-test-output.log ]; then \
 		echo ""; \
@@ -137,7 +151,7 @@ ci-test-debian:  ## Run tests in cached debian container (like GitHub CI)
 		-w /app \
 		-e PATH="/root/.local/bin:$$PATH" \
 		cdisplayagain-ci:13 \
-		bash -c 'uv sync --locked && timeout 300 xvfb-run -a --server-args="-screen 0 1280x1024x24" .venv/bin/pytest tests/ -q --tb=short' \
+		bash -c 'source .venv/bin/activate && uv sync --all-extras && timeout 300 xvfb-run -a --server-args="-screen 0 1280x1024x24" pytest tests/ -q --tb=short' \
 		2>&1 | tee ci-test-debian-output.log
 	@if [ -f ci-test-debian-output.log ]; then \
 		echo "=== CI Test Output Summary ==="; \
