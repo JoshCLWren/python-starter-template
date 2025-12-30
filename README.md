@@ -1,5 +1,7 @@
 # Python Starter Template
 
+[![CI Status](https://github.com/JoshCLWren/python-starter-template/workflows/CI/badge.svg)](https://github.com/JoshCLWren/python-starter-template/actions)
+
 A modern Python 3.13 project template with best practices, tooling, and CI/CD preconfigured.
 
 ## Features
@@ -202,7 +204,7 @@ GitHub Actions runs on every push to main and on pull requests:
 - **Lint job**: Runs ruff and pyright
 - **Tests job**: Runs pytest with coverage
 
-To see pipeline status: [![CI Status](https://github.com/JoshCLWren/python-starter-template/workflows/CI/badge.svg)](https://github.com/JoshCLWren/python-starter-template/actions)
+View pipeline status in the Actions tab of the repository.
 
 ## Dependency Management
 
