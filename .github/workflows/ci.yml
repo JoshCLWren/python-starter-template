@@ -1,3 +1,4 @@
+# TODO: After init, update CODECOV_TOKEN in GitHub repository secrets if using Codecov
 name: CI
 
 on:
