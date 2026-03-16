@@ -26,8 +26,29 @@ init:  ## Initialize project with new name (Usage: make init NAME=your-project)
 		echo "Removing template main.py (library package)..."; \
 		rm main.py; \
 	fi
-	@echo "Project initialized as $(NAME)"
-	@echo "Run 'uv sync --group dev' to install dependencies"
+	@echo ""
+	@echo "✅ Project initialized successfully!"
+	@echo ""
+	@echo "📋 SUMMARY OF CHANGES:"
+	@echo "  • Module renamed to: $(PKG_DIR)"
+	@echo "  • Package name in pyproject.toml: $(NAME)"
+	@echo "  • Python imports updated to use: $(PKG_DIR)"
+	@echo "  • CI workflow updated"
+	@echo "  • Template main.py removed (library package structure)"
+	@echo ""
+	@echo "⚠️  MANUAL UPDATES REQUIRED:"
+	@echo "  • Replace [[MODULE_NAME]] with $(PKG_DIR) in README.md and AGENTS.md"
+	@echo "  • Update CI badge URLs in README.md (YOUR_USERNAME/YOUR_REPO)"
+	@echo "  • Update project title, description, and features in README.md"
+	@echo "  • Review and customize AGENTS.md for your project"
+	@echo "  • See POST_INIT_CHECKLIST.md for complete details"
+	@echo ""
+	@echo "📦 NEXT STEPS:"
+	@echo "  1. Run: uv sync --all-extras"
+	@echo "  2. Run: source .venv/bin/activate"
+	@echo "  3. Run: make lint && make pytest"
+	@echo "  4. Follow POST_INIT_CHECKLIST.md for customization"
+	@echo ""
 
 lint:  ## Run code linting
 	bash scripts/lint.sh

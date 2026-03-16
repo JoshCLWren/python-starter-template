@@ -1,6 +1,8 @@
 # Python Starter Template
 
-[![CI Status](https://github.com/JoshCLWren/python-starter-template/workflows/CI/badge.svg)](https://github.com/JoshCLWren/python-starter-template/actions)
+> **⚠️ TEMPLATE FILE - This is a template. After running `make init NAME=your-project`, update this file with your project's specific information.**
+
+[![CI Status](https://github.com/YOUR_USERNAME/YOUR_REPO/workflows/CI/badge.svg)](https://github.com/YOUR_USERNAME/YOUR_REPO/actions)
 
 A modern Python 3.13 project template with best practices, tooling, and CI/CD preconfigured.
 
@@ -90,7 +92,7 @@ ruff format .
 
 ```
 .
-├── example_module/          # Main package (rename via make init)
+├── [[MODULE_NAME]]/          # Main package (rename via make init)
 │   ├── __init__.py
 │   └── core.py             # Core business logic
 ├── tests/                   # Test suite
@@ -122,7 +124,7 @@ pytest -v
 pytest tests/test_example.py
 
 # Run with coverage
-pytest --cov=example_module --cov-report=html
+pytest --cov=[[MODULE_NAME]] --cov-report=html
 ```
 
 **Coverage requirement**: Minimum 96% (configured in pyproject.toml)
@@ -248,3 +250,16 @@ Template created by Josh Wren
 - [pytest Documentation](https://docs.pytest.org/)
 - [ruff Documentation](https://docs.astral.sh/ruff/)
 - [pyright Documentation](https://microsoft.github.io/pyright/)
+
+## 📝 Post-Initialization Checklist
+
+After running `make init NAME=your-project`, complete these steps to customize your project:
+
+- [ ] Update project title and description in README.md
+- [ ] Replace all `[[MODULE_NAME]]` references with your actual module name
+- [ ] Update CI badge URLs to point to your repository (replace `YOUR_USERNAME` and `YOUR_REPO`)
+- [ ] Update the features list to match your project's specific features
+- [ ] Add your actual usage examples and documentation
+- [ ] Update LICENSE if needed (currently MIT)
+- [ ] Review and update AGENTS.md for your project's specific patterns
+- [ ] Remove this checklist section from README.md
