@@ -23,7 +23,7 @@ However, some items require manual attention to ensure your project is properly 
 
 - [ ] **Replace `[[MODULE_NAME]]` references**
   - Search for all instances of `[[MODULE_NAME]]`
-  - Replace with your actual module name (e.g., `my_project` or `my_project` if using hyphens)
+  - Replace with your actual module name (e.g., project name `my-project` becomes module directory `my_project`)
 
 - [ ] **Update CI badge URLs**
   - Replace `YOUR_USERNAME` with your GitHub username

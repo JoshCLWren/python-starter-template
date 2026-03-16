@@ -28,7 +28,7 @@ cd python-starter-template
 make init NAME=my-awesome-project
 
 # Install dependencies
-uv sync --all-extras
+uv sync --group dev
 
 # Activate the virtual environment (do this once per session)
 source .venv/bin/activate
@@ -36,7 +36,7 @@ source .venv/bin/activate
 # Run tests
 pytest
 
-# Run your application
+# Run your application (if main.py exists)
 python main.py --name World --value 42
 ```
 
@@ -50,9 +50,9 @@ python main.py --name World --value 42
    ```
 
 2. **Install dependencies**:
-   ```bash
-   uv sync --all-extras
-   ```
+    ```bash
+    uv sync --group dev
+    ```
 
 3. **Activate the virtual environment**:
    ```bash
@@ -64,7 +64,7 @@ python main.py --name World --value 42
 Once the virtual environment is activated:
 
 ```bash
-# Run the application
+# Run the application (if main.py exists)
 python main.py --name World --value 42
 
 # Run tests
@@ -92,7 +92,7 @@ ruff format .
 
 ```
 .
-├── [[MODULE_NAME]]/          # Main package (rename via make init)
+├── [[MODULE_NAME]]/          # Main package (replace [[MODULE_NAME]] manually as described in the init checklist)
 │   ├── __init__.py
 │   └── core.py             # Core business logic
 ├── tests/                   # Test suite

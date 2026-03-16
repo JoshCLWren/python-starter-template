@@ -49,7 +49,7 @@ The Python Starter Template is a **modern, opinionated starting point** for Pyth
 ### Step 2: Install Dependencies
 
 ```bash
-uv sync --all-extras
+uv sync --group dev
 ```
 
 This creates a virtual environment and installs all dependencies.
@@ -81,7 +81,8 @@ pytest
 # Run linting
 make lint
 
-# Run your application (if you have an entrypoint)
+# Run your application (if this is an application with an entrypoint)
+# If you initialized a library/package (no main.py), skip this step
 python main.py
 ```
 
@@ -114,7 +115,7 @@ Some items require human judgment and can't be automated:
 
 ## 📚 Template Structure
 
-```
+```text
 python-starter-template/
 ├── [[MODULE_NAME]]/          # Your main package (renamed on init)
 │   ├── __init__.py

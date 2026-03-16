@@ -3,13 +3,13 @@
 > **⚠️ TEMPLATE FILE - This contains template-specific patterns. After initialization, update for your project's needs.**
 
 ## Project Structure & Module Organization
-The main application code lives in the `[[MODULE_NAME]]` directory (which can be renamed via `make init`). The entrypoint is `main.py`. Tooling metadata (`pyproject.toml`, `uv.lock`) defines project dependencies. Expect any future modules (tests, components, helpers) to sit alongside these files unless a new package directory is created.
+The main application code lives in the `[[MODULE_NAME]]` directory (which can be renamed via `make init`). The default entrypoint is `main.py` for applications, but `make init` removes this file for library packages. Tooling metadata (`pyproject.toml`, `uv.lock`) defines project dependencies. Expect any future modules (tests, components, helpers) to sit alongside these files unless a new package directory is created. For applications, create an entrypoint file; for libraries, expose the package API through the module's `__init__.py`.
 
 ## Build, Test, and Development Commands
 - `make init NAME=your-project`: initialize the template with your project name (renames module and updates config).
 - `source .venv/bin/activate`: activate the virtual environment (do this once per session).
-- `uv sync --all-extras`: install dependencies via uv.
-- `python main.py`: run the main entrypoint.
+- `uv sync --group dev`: install dependencies via uv.
+- `python main.py`: run the main entrypoint (if present, for applications).
 - `pytest`: run tests.
 - `make pytest`: run the test suite.
 - `make lint`: run ruff.
@@ -17,7 +17,7 @@ The main application code lives in the `[[MODULE_NAME]]` directory (which can be
 ## Getting Started
 When cloning this template for a new project:
 1. Run `make init NAME=your-project` to rename the module and update config
-2. Run `uv sync --all-extras` to install all dependencies
+2. Run `uv sync --group dev` to install all dependencies
 3. Run `source .venv/bin/activate` to activate the virtual environment
 4. Start building your project!
 
