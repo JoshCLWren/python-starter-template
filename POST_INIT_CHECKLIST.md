@@ -5,7 +5,7 @@ This checklist guides you through the manual steps needed after running `make in
 ## 🎯 Overview
 
 The `make init` command automates the following:
-- ✅ Renames the module directory from `example_module` to your project name
+- ✅ Renames the module directory from `example_module` to your project name (hyphenated names are normalized: my-project → my_project)
 - ✅ Updates `pyproject.toml` with your project name
 - ✅ Updates all Python imports to use the new module name
 - ✅ Updates CI workflow to use the new module name

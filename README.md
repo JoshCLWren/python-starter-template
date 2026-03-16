@@ -103,7 +103,7 @@ ruff format .
 │   └── workflows/ci.yml    # CI pipeline
 ├── scripts/
 │   └── lint.sh            # Linting script
-├── main.py                # Application entrypoint
+├── main.py                # Application entrypoint (removed for library packages)
 ├── pyproject.toml        # Project configuration
 ├── uv.lock               # Dependency lockfile
 └── .gitignore           # Git ignore rules

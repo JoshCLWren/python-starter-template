@@ -40,7 +40,7 @@ The Python Starter Template is a **modern, opinionated starting point** for Pyth
    ```
 
    This command automates:
-   - Renaming the module from `example_module` to your project name
+   - Renaming the module from `example_module` to your package directory/module name (hyphenated project names are normalized: my-project → my_project)
    - Updating `pyproject.toml` with your project name
    - Updating all Python imports to use the new module name
    - Updating CI workflow configuration
